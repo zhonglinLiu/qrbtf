@@ -9,7 +9,7 @@ const IconParams = ({ icon, onBlur, onKeyPress }) => {
     const { enabled, src, scale } = icon;
     const components = [];
 
-    if (getExactValue(enabled, 0) == 1) {
+    if (getExactValue(enabled, 0) === 1) {
         components.push(
             <FrameworkParam paramName={"图标源"}>
                 <ParamIconSrcViewer icon={icon} onChange={onBlur}/>
@@ -17,7 +17,7 @@ const IconParams = ({ icon, onBlur, onKeyPress }) => {
         );
     }
 
-    if (getExactValue(enabled, 0) != 0) {
+    if (getExactValue(enabled, 0) !== 0) {
         components.push(
             <FrameworkParam paramName={"图标缩放"}>
                 <input

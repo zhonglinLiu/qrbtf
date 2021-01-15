@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types'
 import '../Qrcode.css';
 
 const FrameworkParam = ({ paramName, children, ...other }) => (

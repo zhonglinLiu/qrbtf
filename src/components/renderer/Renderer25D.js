@@ -34,13 +34,13 @@ function listPoints({ qrcode, params, icon }) {
             if (qrcode.isDark(x, y) === false) continue;
             else if (typeTable[x][y] === QRPointType.POS_OTHER || typeTable[x][y] === QRPointType.POS_CENTER) {
                 pointList.push(<rect width={size2} height={size2} key={id++} fill={upColor} x={x + (1 - size2)/2} y={y + (1 - size2)/2} transform={matrixString}/>);
-                pointList.push(<rect width={height2} height={size2} key={id++} fill={leftColor} x={0} y={0} transform={matrixString+'translate('+String(x + (1 - size2)/2 + size2)+','+String(y + (1 - size2)/2)+') '+'skewY(45) '}/>);
-                pointList.push(<rect width={size2} height={height2} key={id++} fill={rightColor} x={0} y={0} transform={matrixString+'translate('+String(x + (1 - size2)/2)+','+String(y + size2 + (1 - size2)/2)+') '+'skewX(45) '}/>);
+                pointList.push(<rect width={height2} height={size2} key={id++} fill={leftColor} x={0} y={0} transform={`${matrixString} translate(${x + (1 - size2)/2 + size2}, ${y + (1 - size2)/2}) skewY(45)`}/>);
+                pointList.push(<rect width={size2} height={height2} key={id++} fill={rightColor} x={0} y={0} transform={`${matrixString} translate(${x + (1 - size2)/2}, ${y + size2 + (1 - size2)/2}) skewX(45)`}/>);
             }
             else {
                 pointList.push(<rect width={size} height={size} key={id++} fill={upColor} x={x + (1 - size)/2} y={y + (1 - size)/2} transform={matrixString}/>);
-                pointList.push(<rect width={height} height={size} key={id++} fill={leftColor} x={0} y={0} transform={matrixString+'translate('+String(x + (1 - size)/2 + size)+','+String(y + (1 - size)/2)+') '+'skewY(45) '}/>);
-                pointList.push(<rect width={size} height={height} key={id++} fill={rightColor} x={0} y={0} transform={matrixString+'translate('+String(x + (1 - size)/2)+','+String(y + size + (1 - size)/2)+') '+'skewX(45) '}/>);
+                pointList.push(<rect width={height} height={size} key={id++} fill={leftColor} x={0} y={0} transform={`${matrixString} translate(${x + (1 - size)/2 + size}, ${y + (1 - size)/2}) skewY(45)`}/>);
+                pointList.push(<rect width={size} height={height} key={id++} fill={rightColor} x={0} y={0} transform={`${matrixString} translate(${x + (1 - size)/2}, ${y + size + (1 - size)/2}) skewX(45)`}/>);
             }
         }
     }
@@ -100,13 +100,14 @@ let defaultDrawIcon = function ({ qrcode, params, title, icon }) {
             const randomIdClips = getIdNum();
             pointList.push(
                 <g transform={matrixString}>
-                    <path d={sq25} stroke="#FFF" strokeWidth={100/iconSize * 1} fill="#FFF" transform={'translate('+String(iconXY)+','+String(iconXY)+') ' + 'scale(' + String(iconSize/100) + ',' + String(iconSize/100) + ')'} />
+                    <path d={sq25} stroke="#FFF" strokeWidth={100/iconSize * 1} fill="#FFF" transform={`translate(${iconXY}, ${iconXY}) scale(${iconSize / 100}, ${iconSize / 100})`} />
                 </g>
             );
             pointList.push(
                 <g key={id++} transform={matrixString}>
                     <defs>
-                        <path id={"defs-path" + randomIdDefs} d={sq25} fill="#FFF" transform={'translate('+String(iconXY)+','+String(iconXY)+') ' + 'scale(' + String(iconSize/100) + ',' + String(iconSize/100) + ')'} />                    </defs>
+                        <path id={"defs-path" + randomIdDefs} d={sq25} fill="#FFF" transform={`translate(${iconXY}, ${iconXY}) scale(${iconSize / 100}, ${iconSize / 100})`} />
+                    </defs>
                     <clipPath id={"clip-path" + randomIdClips}>
                         <use xlinkHref={"#defs-path" + randomIdDefs}  overflow="visible"/>
                     </clipPath>
@@ -184,18 +185,19 @@ let builtinDrawIcon = function ({ qrcode, params, title, icon }) {
             const randomIdClips = getIdNum();
             pointList.push(
                 <g transform={matrixString}>
-                    <path d={sq25} stroke="#FFF" strokeWidth={100/iconSize * 1} fill="#FFF" transform={'translate('+String(iconXY)+','+String(iconXY)+') ' + 'scale(' + String(iconSize/100) + ',' + String(iconSize/100) + ')'} />
+                    <path d={sq25} stroke="#FFF" strokeWidth={100/iconSize * 1} fill="#FFF" transform={`translate(${iconXY}, ${iconXY}) scale(${iconSize / 100}, ${iconSize / 100})`} />
                 </g>
             );
             pointList.push(
                 <g key={id++} transform={matrixString}>
                     <defs>
-                        <path id={"defs-path" + randomIdDefs} d={sq25} fill="#FFF" transform={'translate('+String(iconXY)+','+String(iconXY)+') ' + 'scale(' + String(iconSize/100) + ',' + String(iconSize/100) + ')'} />                    </defs>
+                        <path id={"defs-path" + randomIdDefs} d={sq25} fill="#FFF" transform={`translate(${iconXY}, ${iconXY}) scale(${iconSize / 100}, ${iconSize / 100})`} />
+                    </defs>
                     <clipPath id={"clip-path" + randomIdClips}>
                         <use xlinkHref={"#defs-path" + randomIdDefs}  overflow="visible"/>
                     </clipPath>
                     <g clipPath={"url(#clip-path" + randomIdClips + ")"}>
-                        <g transform={'translate('+String(iconXY)+','+String(iconXY)+') ' + 'scale(' + String(iconSize/100) + ',' + String(iconSize/100) + ')'} >
+                        <g transform={`translate(${iconXY}, ${iconXY}) scale(${iconSize / 100}, ${iconSize / 100})`} >
                             {builtinIcon()}
                         </g>
                     </g>
