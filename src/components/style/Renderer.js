@@ -36,7 +36,7 @@ let defaultDrawIcon = function ({ qrcode, params, title, icon }) {
             const randomIdDefs = getIdNum();
             const randomIdClips = getIdNum();
 
-            pointList.push(<path d={sq25} stroke="#FFF" strokeWidth={100/iconSize * 1} fill="#FFF" transform={`translate(${iconXY}, ${iconXY}) scale(${iconSize / 100}, ${iconSize / 100})`} />);
+            pointList.push(<path key={id++} d={sq25} stroke="#FFF" strokeWidth={100/iconSize * 1} fill="#FFF" transform={`translate(${iconXY}, ${iconXY}) scale(${iconSize / 100}, ${iconSize / 100})`} />);
             pointList.push(
                 <g key={id++}>
                     <defs>
@@ -117,7 +117,7 @@ let builtinDrawIcon = function ({ qrcode, params, title, icon }) {
         if (icon && iconMode) {
             const randomIdDefs = getIdNum();
             const randomIdClips = getIdNum();
-            pointList.push(<path d={sq25} stroke="#FFF" strokeWidth={100/iconSize * 1} fill="#FFF" transform={`translate(${iconXY}, ${iconXY}) scale(${iconSize / 100}, ${iconSize / 100})`} />);
+            pointList.push(<path key={id++} d={sq25} stroke="#FFF" strokeWidth={100/iconSize * 1} fill="#FFF" transform={`translate(${iconXY}, ${iconXY}) scale(${iconSize / 100}, ${iconSize / 100})`} />);
             pointList.push(
                 <g key={id++}>
                     <defs>

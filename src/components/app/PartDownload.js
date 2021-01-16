@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import PropTypes from 'prop-types';
 import {isWeiXin} from "../../utils/navigatorUtils";
+import PresetModalViewer from "../../containers/preset/PresetModalViewer";
 
 const WxMessage = () => {
     if (isWeiXin()) {
@@ -28,8 +29,9 @@ const ImgBox = ({ imgData }) => {
     return null
 }
 
-const PartDownload = ({ value, downloadCount, onSvgDownload, onImgDownload }) => {
+const PartDownload = ({ value, downloadCount, onSvgDownload, onImgDownload, savePreset }) => {
     const [imgData, setImgData] = useState('');
+    const [visible, setVisible] = useState(false);
 
     return (
         <div className="Qr-titled">
@@ -41,11 +43,15 @@ const PartDownload = ({ value, downloadCount, onSvgDownload, onImgDownload }) =>
             </p>
         </div>
         <div className="Qr-Centered">
+            <PresetModalViewer visible={visible} onClose={() => setVisible(false)} />
             <div className="btn-row">
                 <div className="div-btn img-dl-btn">
                     <button className="dl-btn" onClick={() => {onImgDownload("jpg").then(res => setImgData(res));}}>JPG</button>
                     <button className="dl-btn" onClick={() => {onImgDownload("png").then(res => setImgData(res));}}>PNG</button>
                     <button className="dl-btn" onClick={onSvgDownload}>SVG</button>
+
+                    <button className="dl-btn" onClick={() => setVisible(true)}>管理预设</button>
+                    <button className="dl-btn" onClick={savePreset}>保存预设</button>
                 </div>
             </div>
             <div id="wx-message">

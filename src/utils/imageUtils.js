@@ -8,6 +8,20 @@ export function isPicture(file) {
     return fileTypes.includes(file.type);
 }
 
+export function svgToBase64(content, width, height) {
+    const wrap = document.createElement('div');
+    wrap.innerHTML = content;
+
+    const $svg = wrap.firstChild
+    const $clone = $svg.cloneNode(true);
+
+    $clone.setAttribute('width', width);
+    $clone.setAttribute('height', height);
+
+    const svgData = new XMLSerializer().serializeToString($clone);
+    return 'data:image/svg+xml;base64,' + btoa(svgData);
+}
+
 export function toBase64(file, aspectRatio) {
     let canvas = document.createElement('canvas');
     let ctx = canvas.getContext('2d');

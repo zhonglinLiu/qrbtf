@@ -2,12 +2,10 @@ import {encodeData} from "../utils/qrcodeHandler";
 import {actionTypes} from "../constant/ActionTypes";
 import {QRBTF_URL} from "../constant/References";
 import {getExactValue} from "../utils/util";
-import {RendererRect} from "../components/renderer/RendererBase";
 
 const initialState = {
     selectedIndex: 0,
     value: 'A1',
-    rendererType: RendererRect,
     correctLevel: 0,
     textUrl: QRBTF_URL,
     history: [],
@@ -32,7 +30,6 @@ export default function appReducer(state = initialState, action) {
         case actionTypes.CHANGE_STYLE: {
             return Object.assign({}, state, {
                 value: action.value,
-                rendererType: action.rendererType,
                 selectedIndex: action.rendererIndex,
                 history: state.history.slice().concat(action.value)
             });

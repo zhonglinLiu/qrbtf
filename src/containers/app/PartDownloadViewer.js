@@ -4,6 +4,8 @@ import {saveImg, saveSvg} from "../../utils/downloader";
 import {getDownloadCount, increaseDownloadData, recordDownloadDetail} from "../../api/TcbHandler";
 import {getParamDetailedValue, outerHtml} from "../../utils/util";
 import {handleDownloadImg, handleDownloadSvg} from "../../utils/gaHelper";
+import {appendPreset} from "../../utils/storageUtils";
+import {svgToBase64} from "../../utils/imageUtils";
 
 function saveDB(state, type, updateDownloadData) {
     return new Promise(resolve => {
@@ -42,7 +44,7 @@ const mapStateToProps = (state, ownProps) => ({
     downloadCount: state.downloadData[state.value],
     onSvgDownload: () => {
         saveSvg(state.value, outerHtml(state.selectedIndex));
-        saveDB(state, 'svg', ownProps.updateDownloadData);
+        saveDB(state, 'svg', ownProps.updateDownloadData).catch(console.error);
         handleDownloadSvg(state.value);
     },
     onImgDownload: (type) => {
@@ -54,6 +56,26 @@ const mapStateToProps = (state, ownProps) => ({
                 });
             });
         });
+    },
+    savePreset: () => {
+        let preset = {
+            name: '测试预设',
+            selectedIndex: state.selectedIndex,
+            preview: svgToBase64(outerHtml(state.selectedIndex), 1500, 1500),
+            styleName: state.value,
+            params: state.paramInfo[state.selectedIndex].map((paramInfo, index) => {
+                return {
+                    name: paramInfo.key,
+                    value: state.paramValue[state.selectedIndex][index],
+                }
+            }),
+            globalParams: new Array(3),
+        };
+        preset.globalParams[0] = {name: '容错率', value: state.correctLevel};
+        preset.globalParams[1] = {name: '图标', value: state.icon};
+        preset.globalParams[2] = {name: '文字', value: state.title};
+        appendPreset(preset);
+        alert('saved');
     }
 })
 

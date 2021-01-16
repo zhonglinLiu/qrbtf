@@ -38,7 +38,7 @@ const ParamIcon = ({icon, onBlur, onKeyPress}) => (
         <FrameworkParam paramName={"图标"}>
             <select
                 className="Qr-select"
-                defaultValue={icon.enabled}
+                value={icon.enabled}
                 onChange={(e) => onBlur({...icon, enabled: e.target.value})}>
                 <option value={0}>无</option>
                 <option value={1}>自定义</option>

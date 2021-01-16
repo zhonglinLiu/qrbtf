@@ -52,7 +52,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     onSelected: rendererIndex => {
-        dispatch(changeStyle(rendererIndex, styles[rendererIndex].renderer, styles[rendererIndex].value))
+        dispatch(changeStyle(rendererIndex, styles[rendererIndex].value))
     }
 })
 

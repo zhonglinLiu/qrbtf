@@ -6,11 +6,11 @@ export const genQRInfo = text => ({
     text
 })
 
-export const changeStyle = (rendererIndex, rendererType, value) => {
+export const changeStyle = (rendererIndex, value) => {
     handleStyle(value);
     return {
         type: actionTypes.CHANGE_STYLE,
-        rendererIndex, rendererType, value
+        rendererIndex, value
     }
 }
 

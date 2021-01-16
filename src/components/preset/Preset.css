@@ -1,0 +1,29 @@
+.ReactModal__Overlay {
+    opacity: 0;
+    transition: opacity 100ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open{
+    opacity: 1;
+}
+
+.ReactModal__Overlay--before-close{
+    opacity: 0;
+}
+
+.Qr-preset-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.Qr-preset-side {
+    width: 70%;
+    height: 100%;
+    padding-top: 10px;
+}
+
+.Qr-preset-detail {
+    width: 40%;
+    height: 100%;
+}
