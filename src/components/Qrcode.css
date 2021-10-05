@@ -318,7 +318,7 @@ td {
 .Qr-input-upload {
     display: flex;
     max-width: calc(100vw - 46px);
-    width: 20em;
+    width: 22em;
 }
 
 .Qr-input-upload-div {
@@ -360,7 +360,7 @@ td {
     height: calc(2em + 6px);
     font-size: calc(10px + 2vmin);
     border: var(--border-color) solid 2px;
-    margin-left: 10px;
+    margin: 0 10px;
     flex: 1;
 }
 
@@ -372,6 +372,7 @@ td {
 
 .Qr-upload {
     color: var(--upload-color);
+    fill: var(--upload-color);
     font-size: calc(10px + 2vmin);
     border: var(--border-color) solid 2px;
     width: calc(2em + 6px)!important;
@@ -409,6 +410,7 @@ td {
 .Qr-upload:hover {
     border-color: var(--border-color-focus);
     color: var(--border-color-focus);
+    fill: var(--border-color-focus);
 }
 
 .Qr-upload:active {
@@ -417,6 +419,7 @@ td {
     -moz-transition-duration: 0s;
     border-color: #3BBC9F;
     color: #3BBC9F;
+    fill: #3BBC9F;
 }
 
 .Qr-upload-svg {

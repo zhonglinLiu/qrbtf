@@ -34,7 +34,7 @@ const ImgBox = ({ imgData }) => {
     return null
 }
 
-const PartDownload = ({ value, downloadCount, onSvgDownload, onImgDownload }) => {
+const PartDownload = ({ value, batchMode, downloadCount, onSvgDownload, onImgDownload }) => {
     const [imgData, setImgData] = useState('');
 
     return (
@@ -42,7 +42,9 @@ const PartDownload = ({ value, downloadCount, onSvgDownload, onImgDownload }) =>
         <div className="Qr-Centered title-margin">
             <div className="Qr-s-title">Downloads</div>
             <p className="Qr-s-subtitle">
-                <span>下载二维码 — {value}</span>
+                <span>下载二维码</span>
+                <span>({batchMode ? "批量模式" : "单文件模式"})</span>
+                <span> — {value}</span>
                 <CountComponent value={downloadCount} />
             </p>
         </div>

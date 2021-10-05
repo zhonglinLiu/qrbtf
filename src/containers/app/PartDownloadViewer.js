@@ -1,9 +1,13 @@
 import {connect} from 'react-redux';
 import PartDownload from "../../components/app/PartDownload";
-import {saveImg, saveSvg} from "../../utils/downloader";
+import {saveImg, saveSvg, startTask} from "../../utils/downloader";
 import {getDownloadCount, increaseDownloadData, recordDownloadDetail} from "../../api/TcbHandler";
-import {getParamDetailedValue, outerHtml} from "../../utils/util";
+import {fillEmptyWith, getParamDetailedValue, outerHtml} from "../../utils/util";
 import {handleDownloadImg, handleDownloadSvg} from "../../utils/gaHelper";
+import React from "react";
+import ReactDOMServer from "react-dom/server";
+import JSZip from "jszip";
+import {encodeData} from "../../utils/qrcodeHandler";
 
 function saveDB(state, type, updateDownloadData) {
     return new Promise(resolve => {
@@ -40,21 +44,67 @@ function saveDB(state, type, updateDownloadData) {
 const mapStateToProps = (state, ownProps) => ({
     value: state.value,
     downloadCount: state.downloadData[state.value],
-    onSvgDownload: () => {
-        saveSvg(state.value, outerHtml(state.selectedIndex));
-        saveDB(state, 'svg', ownProps.updateDownloadData);
-        handleDownloadSvg(state.value);
-    },
-    onImgDownload: (type) => {
-        return new Promise(resolve => {
-            saveImg(state.value, outerHtml(state.selectedIndex), 1500, 1500, type).then((res) => {
-                saveDB(state, type, ownProps.updateDownloadData).then(() => {
-                    handleDownloadImg(state.value, type);
-                    resolve(res)
+    batchMode: state.textUrlArray.length > 0,
+    onSvgDownload: async () => {
+        let data;
+        if (state.textUrlArray.length === 0) {
+            data = saveSvg(state.value, outerHtml(state.selectedIndex));
+            const filename = "QRcode_" + state.value + ".svg";
+            startTask(URL.createObjectURL(data), filename);
+        } else {
+            const zip = new JSZip();
+            for (let i = 0; i < state.textUrlArray.length; i++) {
+                const qrcode = encodeData({ text: state.textUrlArray[i], correctLevel: state.correctLevel });
+                const el = React.createElement(state.rendererType, {
+                    qrcode: qrcode,
+                    params: fillEmptyWith(state.paramValue[state.selectedIndex].slice(), 0),
+                    title: state.title,
+                    icon: state.icon,
+                    setParamInfo: () => {}
                 });
-            });
-        });
-    }
+                data = saveSvg(state.value, ReactDOMServer.renderToString(el));
+                console.log(data)
+                const filename = "QRcode_" + state.value + "_" + i + ".svg";
+                zip.file(filename, data);
+            }
+            const href = URL.createObjectURL(await zip.generateAsync({ type: "blob" }));
+            startTask(href, "QRcode_" + state.value + ".zip");
+        }
+
+        await saveDB(state, 'svg', ownProps.updateDownloadData);
+        handleDownloadSvg(state.value);
+        return data;
+    },
+    onImgDownload: async (type) => {
+        let data;
+        if (state.textUrlArray.length === 0) {
+            data = await saveImg(state.value, outerHtml(state.selectedIndex), 1500, 1500, type);
+            const filename = "QRcode_" + state.value + "." + type;
+            startTask(data, filename);
+        } else {
+            const zip = new JSZip();
+            for (let i = 0; i < state.textUrlArray.length; i++) {
+                const qrcode = encodeData({ text: state.textUrlArray[i], correctLevel: state.correctLevel });
+                const el = React.createElement(state.rendererType, {
+                    qrcode: qrcode,
+                    params: fillEmptyWith(state.paramValue[state.selectedIndex].slice(), 0),
+                    title: state.title,
+                    icon: state.icon,
+                    setParamInfo: () => {}
+                });
+                data = await saveImg(state.value, ReactDOMServer.renderToString(el), 1500, 1500, type);
+                const startIdx = data.indexOf("base64,") + "base64,".length;
+                const filename = "QRcode_" + state.value + "_" + i + "." + type;
+                zip.file(filename, data.substring(startIdx), {base64: true});
+            }
+            const href = URL.createObjectURL(await zip.generateAsync({ type: "blob" }));
+            startTask(href, "QRcode_" + state.value + ".zip");
+        }
+
+        await saveDB(state, type, ownProps.updateDownloadData)
+        handleDownloadImg(state.value, type);
+        return data;
+    },
 })
 
 export default connect(mapStateToProps, null)(PartDownload)
