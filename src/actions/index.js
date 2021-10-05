@@ -1,10 +1,19 @@
 import {actionTypes} from "../constant/ActionTypes";
 import {handleStyle} from "../utils/gaHelper";
 
-export const genQRInfo = text => ({
-    type: actionTypes.GENERATE_QR_INFO,
-    text
-})
+export const genQRInfo = text => {
+    if (Array.isArray(text)) {
+        return {
+            type: actionTypes.GENERATE_QR_INFO,
+            text: text[0],
+            textArray: text
+        }
+    }
+    return {
+        type: actionTypes.GENERATE_QR_INFO,
+        text
+    }
+}
 
 export const changeStyle = (rendererIndex, value) => {
     handleStyle(value);

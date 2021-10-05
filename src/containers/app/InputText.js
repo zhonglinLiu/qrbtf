@@ -4,6 +4,7 @@ import React, {useRef} from "react";
 import {isPicture} from "../../utils/imageUtils";
 import {decodeData} from "../../utils/qrcodeHandler";
 import { handleUpload, handleInputUrl } from "../../utils/gaHelper";
+import FileImport from "../../components/svg/FileImport";
 
 const InputText = ({dispatch}) => {
     const textRef = useRef();
@@ -41,7 +42,6 @@ const InputText = ({dispatch}) => {
                                     decodeData(file).then((res) => {
                                         if (res) {
                                             textRef.current.value = res.data;
-                                            console.log(res.data)
                                             dispatch(genQRInfo(res.data))
                                         }
                                     }).catch(console.err);
@@ -65,9 +65,39 @@ const InputText = ({dispatch}) => {
                             }
                         }}
                     />
+                    <label htmlFor="text_import" className="Qr-upload">
+                        <FileImport />
+                    </label>
+                    <input
+                        type="file"
+                        id="text_import"
+                        hidden={true}
+                        accept={".txt"}
+                        onClick={(e) => e.target.value = null}
+                        onChange={(e) => {
+                            if (e.target.files.length > 0) {
+                                const file = e.target.files[0];
+                                if (file.type === "text/plain") {
+                                    const fileReader = new FileReader();
+                                    fileReader.onload = function(event) {
+                                        const lines = event.target.result
+                                            .split(/[\r\n]+/g)
+                                            .map(line => line.trim())
+                                            .filter(line => line.length > 0);
+                                        console.log(lines)
+                                        if (lines.length > 0) {
+                                            textRef.current.value = lines[0];
+                                            dispatch(genQRInfo(lines))
+                                        }
+                                    }
+                                    fileReader.readAsText(file, "UTF-8");
+                                }
+                            }
+                        }}
+                    />
                 </div>
                 <div className="Qr-input-hint">
-                    上传普通二维码或输入网址
+                    上传普通二维码、输入网址或上传 txt 文本批量生成
                 </div>
             </div>
         </React.Fragment>);

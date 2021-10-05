@@ -4,6 +4,12 @@ import PropTypes from 'prop-types';
 import {isWeiXin} from "../../utils/navigatorUtils";
 import PresetModalViewer from "../../containers/preset/PresetModalViewer";
 
+const CountComponent = ({ value }) => {
+    if (isNaN(value)) return null;
+    if (value >= 10000) value = (value / 10000).toFixed(1) + "万";
+    return <sup className="Gray">{value}</sup>
+}
+
 const WxMessage = () => {
     if (isWeiXin()) {
         return (
@@ -13,7 +19,7 @@ const WxMessage = () => {
             </div>
         )
     }
-    return null
+    return null;
 }
 
 const ImgBox = ({ imgData }) => {
@@ -29,7 +35,7 @@ const ImgBox = ({ imgData }) => {
     return null
 }
 
-const PartDownload = ({ value, downloadCount, onSvgDownload, onImgDownload, savePreset }) => {
+const PartDownload = ({ value, batchMode, downloadCount, onSvgDownload, onImgDownload, savePreset }) => {
     const [imgData, setImgData] = useState('');
     const [visible, setVisible] = useState(false);
 
@@ -38,8 +44,10 @@ const PartDownload = ({ value, downloadCount, onSvgDownload, onImgDownload, save
         <div className="Qr-Centered title-margin">
             <div className="Qr-s-title">Downloads</div>
             <p className="Qr-s-subtitle">
-                下载二维码 — {value}
-                <sup className="Gray"> {downloadCount}</sup>
+                <span>下载二维码</span>
+                <span>({batchMode ? "批量模式" : "单文件模式"})</span>
+                <span> — {value}</span>
+                <CountComponent value={downloadCount} />
             </p>
         </div>
         <div className="Qr-Centered">

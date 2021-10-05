@@ -8,6 +8,7 @@ const initialState = {
     value: 'A1',
     correctLevel: 0,
     textUrl: QRBTF_URL,
+    textUrlArray: [],
     history: [],
     downloadData: [],
     qrcode: encodeData({text: QRBTF_URL, correctLevel: 0}),
@@ -24,7 +25,8 @@ export default function appReducer(state = initialState, action) {
             if (!text || text.length === 0) text = QRBTF_URL;
             return Object.assign({}, state, {
                 textUrl: text,
-                qrcode: encodeData({text: text, correctLevel: state.correctLevel})
+                qrcode: encodeData({text: text, correctLevel: state.correctLevel}),
+                textUrlArray: action.textArray || []
             });
         }
         case actionTypes.CHANGE_STYLE: {

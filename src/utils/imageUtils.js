@@ -39,7 +39,6 @@ export function toBase64(file, aspectRatio) {
                 height = img.height;
                 width = height * aspectRatio;
             }
-            console.log(width + ' ' + height)
             canvas.setAttribute('width', width);
             canvas.setAttribute('height', height);
 
