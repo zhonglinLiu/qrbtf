@@ -206,7 +206,7 @@ let builtinDrawIcon = function ({ qrcode, params, title, icon }) {
     // draw icon
     if (icon) {
         const iconMode = getExactValue(icon.enabled, 0);
-        const {src, scale} = icon;
+        const {scale} = icon;
 
         const iconSize = Number(nCount * (scale > 33 ? 33 : scale) / 100 * 3);
         const iconXY = (nCount*3 - iconSize) / 2;

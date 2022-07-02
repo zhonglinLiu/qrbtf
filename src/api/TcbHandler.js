@@ -1,65 +1,96 @@
-import * as tcb from 'tcb-js-sdk';
-
-const app = tcb.init({
-    env: 'qrbtf-1d845d'
-});
-
 let isLogin;
-const auth = app.auth();
-const db = app.database();
-const _ = db.command
 
 export async function login() {
     if (isLogin) return;
-    await auth.signInAnonymously();
-    const loginState = await auth.getLoginState();
-    isLogin = loginState;
+    isLogin = true;
 }
 
 export function getDownloadCount(callback) {
     if (!isLogin) return;
-    db.collection('QRCounter').get().then(res => {
-        if (callback) callback(res);
-    });
+    let res = {
+      data: [
+        {
+          count: 23417,
+          value: "A — a1",
+        },
+        {
+          count: 12971,
+          vaule: "SP — 3",
+        },
+        {
+          count: 19887,
+          value: "C1",
+        },
+        {
+          count: 4456,
+          value: "A — a2",
+        },
+        {
+          count: 10822,
+          value: "A2",
+        },
+        {
+          count: 33,
+          value: "D1",
+        },
+        {
+          count: 61842,
+          value: "A1",
+        },
+        {
+          count: "32241",
+          value: "C2",
+        },
+        {
+          count: 5083,
+          value: "B1",
+        },
+        {
+          count: 3162,
+          value: "A — b2",
+        },
+        {
+          count: 6156,
+          value: "A3",
+        },
+        {
+          count: 5159,
+          value: "A — b1",
+        },
+        {
+          count: 16723,
+          value: "SP — 1",
+        },
+        {
+          count: 3636,
+          value: "SP — 2",
+        },
+        {
+          count: 3084,
+          value: "C3"
+        },
+      ],
+    };
+    if (callback) callback(res);
 }
 
 export function increaseDownloadData(value, callback) {
     if (!isLogin) return;
-    db.collection('QRCounter').where({
-        value: _.eq(value)
-    }).get().then(res => {
-        if (res.data.length > 0) {
-            db.collection('QRCounter').where({
-                value: _.eq(value)
-            }).update({
-                count: _.inc(1),
-                date: new Date().toString()
-            }).then(() => {
-                if (callback) callback();
-            }).catch(console.error)
-        }
-        else {
-            db.collection('QRCounter').add({
-                value: value,
-                count: 1,
-                date: new Date().toString()
-            }).then(() => {
-                if (callback) callback()
-            }).catch(console.error)
-        }
-    })
+    console.log(value)
+    if (callback) callback();
 }
 
 export function recordDownloadDetail({text, value, type, params, history}, callback) {
     if (!isLogin) return;
-    db.collection('QRDownloadData').add({
-        date: new Date().toString(),
-        text: text,
-        value: value,
-        type: type,
-        params: params,
-        history: history
-    }).then(res => {
-        if (callback) callback(res);
-    }).catch(console.error);
+    let d = {
+      date: new Date().toString(),
+      text: text,
+      value: value,
+      type: type,
+      params: params,
+      history: history,
+    };
+    console.log(d)
+    let res = {}
+    if (callback) callback(res);
 }

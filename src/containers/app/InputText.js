@@ -51,7 +51,7 @@ const InputText = ({dispatch}) => {
                     />
                     <input
                         className="Qr-input big-input"
-                        placeholder="https://qrbtf.com"
+                        placeholder="https://app.wehere.top/qr_code/"
                         ref={textRef}
                         onBlur={(e) => {
                             handleInputUrl();
