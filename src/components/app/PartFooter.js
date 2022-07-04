@@ -12,7 +12,7 @@ const PartFooter = () => (
                 <LinkTrace
                     href="https://www.zhihu.com/people/cai-niao-82-86"
                     rel="noopener noreferrer"
-                    target="_blank">ciaochaos
+                    target="_blank">zhonglin.liu
                 </LinkTrace>&emsp;
                 <span className="gray">&ensp;丨&ensp;</span>
                 {/* <span><LinkTrace href="https://www.yuque.com/qrbtf/docs/privacy" rel="noopener noreferrer"
@@ -31,8 +31,11 @@ const PartFooter = () => (
                          target="_blank">淘宝优惠券</LinkTrace><span className="gray">&ensp;丨&ensp;</span></span>
                 <span><LinkTrace href="https://mango.wehere.top/tools/markdown" rel="noopener noreferrer"
                          target="_blank">markdown编辑器</LinkTrace><span className="gray">&ensp;丨&ensp;</span></span>
+                <span><LinkTrace href="https://app.wehere.top/periodic-table/index.html" rel="noopener noreferrer"
+                         target="_blank">元素周期表</LinkTrace><span className="gray">&ensp;丨&ensp;</span></span>
+
                 <span><LinkTrace href="https://app.wehere.top/periodic-table/index.html"
-                         rel="noopener noreferrer" target="_blank">元素周期表</LinkTrace></span>
+                         rel="noopener noreferrer" target="_blank">头像制作</LinkTrace></span>
             </div>
 
             <div className="Qr-footer-part">
